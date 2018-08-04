@@ -1,0 +1,7 @@
+*.lock
+*.iml
+/.gradle/
+/.idea/
+/build/
+/classes/
+key.json
