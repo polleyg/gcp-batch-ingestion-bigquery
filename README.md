@@ -1,2 +1,2 @@
-# devfest-melbourne-2017-demo
-Does cool stuff
+# GCS -> Cloud Function -> Dataflow (template) -> BigQuery
+Does cool stuff on GCP
