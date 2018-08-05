@@ -1,7 +1,6 @@
+//gcloud --project=grey-sort-challenge functions deploy goWithTheDataFlow --stage-bucket gs://devfest2017 --trigger-bucket gs://devfest2017
 const google = require('googleapis');
-//gcloud --project=grey-sort-challenge beta functions deploy devfest2017 --stage-bucket gs://devfest2017 --trigger-bucket gs://devfest2017
-//trigger function exported to Node.js
-const goWithTheDataFlow = function(event, callback) {
+exports.goWithTheDataFlow = function(event, callback) {
   const file = event.data;
   const context = event.context;
 
@@ -50,4 +49,3 @@ const goWithTheDataFlow = function(event, callback) {
     callback();
   }
 };
-exports.devfest2017 = goWithTheDataFlow;
