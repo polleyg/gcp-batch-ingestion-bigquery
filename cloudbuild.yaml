@@ -6,3 +6,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket', 'gs://devfest2017', '--trigger-bucket', 'gs://devfest2017']
   dir: 'cloud-function'
+artifacts:
+  objects:
+    location: 'gs://grey-sort-challenge_cloudbuild/artifacts'
+    paths: ['build/distributions/*.*']
