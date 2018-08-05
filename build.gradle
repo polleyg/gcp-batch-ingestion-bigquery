@@ -15,4 +15,17 @@ dependencies {
     compile 'org.slf4j:slf4j-log4j12:1.7.12'
     compile 'com.google.cloud.dataflow:google-cloud-dataflow-java-sdk-all:2.5.0'
 }
+
+run {
+    args = ["--project=grey-sort-challenge",
+            "--runner=DataflowRunner",
+            "--maxNumWorkers=5",
+            "--numWorkers=1",
+            "--zone=australia-southeast1-a",
+            "--stagingLocation=gs://batch-pipeline/jars",
+            "--tempLocation=gs://batch-pipeline/tmp",
+            "--templateLocation=gs://batch-pipeline/template/pipeline"
+    ]
+}
+
 mainClassName='org.polleyg.TemplatePipeline'

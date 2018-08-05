@@ -2,9 +2,9 @@ steps:
 - name: gcr.io/cloud-builders/git
   args: ['clone', 'https://github.com/polleyg/gcp-batch-ingestion-bigquery.git']
 - name: 'gcr.io/cloud-builders/gradle'
-  args: ['build']
+  args: ['build', 'run']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket', 'gs://devfest2017', '--trigger-bucket', 'gs://devfest2017']
+  args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket', 'gs://batch-pipeline', '--trigger-bucket', 'gs://batch-pipeline']
   dir: 'cloud-function'
 artifacts:
   objects:
