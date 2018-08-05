@@ -8,5 +8,5 @@ steps:
   dir: 'cloud-function'
 artifacts:
   objects:
-    location: 'gs://grey-sort-challenge_cloudbuild/artifacts'
+    location: 'gs://batch-pipeline/artifacts'
     paths: ['build/distributions/*.*']
