@@ -8,7 +8,6 @@ steps:
 
 - name: gcr.io/cloud-builders/docker
   args: ['run', 'hashicorp/terraform','init']
-  dir: 'terraform'
 
   #Build and run the Dataflow pipeline (staged template)
 - name: gcr.io/cloud-builders/gradle
