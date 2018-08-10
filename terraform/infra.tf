@@ -1,13 +1,21 @@
+terraform {
+  backend "gcs" {
+    bucket  = "tf-state-gcp-batch-ingestion"
+    region  = "australia-southeast1-a"
+    prefix  = "terraform/state"
+  }
+}
+
 provider "google" {
   project     = "grey-sort-challenge"
-  region      = "us-central1"
+  region      = "australia-southeast1-a"
 }
 
 # Create a new instance
 resource "google_compute_instance" "ubuntu-xenial" {
    name = "ubuntu-xenial"
    machine_type = "f1-micro"
-   zone = "us-west1-a"
+   zone = "australia-southeast1-a"
    boot_disk {
       initialize_params {
       image = "ubuntu-1604-lts"

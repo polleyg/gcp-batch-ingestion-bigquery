@@ -1,24 +1,28 @@
 steps:
-  #Fetch the source code
+  # 1. Fetch the source code
 - name: gcr.io/cloud-builders/git
   args: ['clone', 'https://github.com/polleyg/gcp-batch-ingestion-bigquery.git']
 
-- name: gcr.io/cloud-builders/docker
-  args: ['pull', 'hashicorp/terraform']
+  # 2a. Set up GCS & BQ etc. using Docker
+- name: hashicorp/terraform
+  args: ['init']
+  dir: 'terraform'
 
-- name: gcr.io/cloud-builders/docker
-  args: ['run', 'hashicorp/terraform','init']
+  # 2b. Set up GCS & BQ etc. using Docker
+- name: hashicorp/terraform
+  args: ['apply', '-auto-approve']
+  dir: 'terraform'
 
-  #Build and run the Dataflow pipeline (staged template)
+  # 3. Build and run the Dataflow pipeline (staged template)
 - name: gcr.io/cloud-builders/gradle
   args: ['build', 'run']
 
-  #Deploy the Cloud Function that listens to the bucket
+  # 4. Deploy the Cloud Function that listens to the bucket
 - name: gcr.io/cloud-builders/gcloud
   args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket=gs://batch-pipeline', '--trigger-bucket=gs://batch-pipeline']
   dir: 'cloud-function'
 
-  #Copy tarball to GCS to use later
+  # 5. Copy tarball to GCS to use later
 artifacts:
   objects:
     location: 'gs://batch-pipeline/artifacts'
