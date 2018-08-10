@@ -33,7 +33,7 @@ exports.goWithTheDataFlow = function(event, callback) {
               inputFile: `gs://${file.bucket}/${file.name}`
             },
             jobName: 'called-from-a-cloud-function-batch-pipeline-' + new Date().getTime(),
-            gcsPath: 'gs://devfest2017/template/pipeline'
+            gcsPath: 'gs://batch-pipeline/template/pipeline'
           }
         }, function(err, response) {
           if (err) {
