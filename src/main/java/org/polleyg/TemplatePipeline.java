@@ -30,7 +30,7 @@ public class TemplatePipeline {
         pipeline.apply("READ", TextIO.read().from(options.getInputFile()))
                 .apply("TRANSFORM", ParDo.of(new WikiParDo()))
                 .apply("WRITE", BigQueryIO.writeTableRows()
-                        .to(String.format("%s:devfest2017.wiki_demo", options.getProject()))
+                        .to(String.format("%s:dotc_2018.wiki_demo", options.getProject()))
                         .withCreateDisposition(CREATE_IF_NEEDED)
                         .withWriteDisposition(WRITE_APPEND)
                         .withSchema(getTableSchema()));
