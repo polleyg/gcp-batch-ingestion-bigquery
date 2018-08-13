@@ -56,7 +56,7 @@ public class TemplatePipeline {
         void setInputFile(ValueProvider<String> value);
     }
 
-    private static class WikiParDo extends DoFn<String, TableRow> {
+    public static class WikiParDo extends DoFn<String, TableRow> {
         public static final String HEADER = "year,month,day,wikimedia_project,language,title,views";
 
         @ProcessElement
