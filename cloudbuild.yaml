@@ -9,24 +9,24 @@ steps:
   args: ['init']
   dir: 'terraform'
   id: terraform-init
-  waitFor: git-clone
+  waitFor: ['git-clone']
 
   # 2b. Set up GCS & BQ etc. using Docker
 - name: hashicorp/terraform
   args: ['apply', '-auto-approve']
   dir: 'terraform'
-  waitFor: terraform-init
+  waitFor: ['terraform-init']
 
   # 3. Build and run the Dataflow pipeline (staged template)
 - name: gcr.io/cloud-builders/gradle
   args: ['build', 'run']
-  waitFor: git-clone
+  waitFor: ['git-clone']
 
   # 4. Deploy the Cloud Function that listens to the bucket
 - name: gcr.io/cloud-builders/gcloud
   args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket=gs://batch-pipeline', '--trigger-bucket=gs://batch-pipeline']
   dir: 'cloud-function'
-  waitFor: git-clone
+  waitFor: ['git-clone']
 
   # 5. Copy tarball to GCS to use later
 artifacts:
