@@ -1,5 +1,4 @@
 const expect = require('chai').expect
-
 const index = require('./index')
 
 describe('The cloud function', function () {
@@ -7,7 +6,7 @@ describe('The cloud function', function () {
 
       const event = {
         data: {
-          bucket: "gs://somewhere",
+          bucket: "gs://batch-pipeline",
           name: "upload/filename"
         },
         context: {
@@ -17,7 +16,6 @@ describe('The cloud function', function () {
 
     // Call tested function and verify its behavior
     const result = index.goWithTheDataFlow(event, () => {
-      t.true(consoleLog.calledWith(`File ${event.data.name} uploaded.`));
       t.end();
     });
 

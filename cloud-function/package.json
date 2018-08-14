@@ -13,6 +13,6 @@
   },
   "scripts": {
     "test": "npm run test-unit",
-    "test-unit": "NODE_ENV=test mocha --require co-mocha '*.spec.js'"
+    "test-unit": "NODE_ENV=test mocha --require co-mocha '*.test.js'"
   }
 }

@@ -7,3 +7,5 @@ purge.sh
 /classes/
 /out/
 key.json
+.DS_Store
+cloud-function/.vscode/
