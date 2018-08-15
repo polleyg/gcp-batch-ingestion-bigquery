@@ -20,7 +20,8 @@ steps:
   waitFor: ['terraform-apply']
 
 # 4a. Install npm & run tests
-- name: gcr.io/cloud-builders/npm
+- name: node:10.8.0
+  entrypoint: npm
   args: ['install', 'test']
   id: npm-install-test
   dir: 'cloud-function'
