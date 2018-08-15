@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "description": "fsfadsf",
+  "description": "A cloud function",
   "repository": "https://github.com/polleyg/gcp-batch-ingestion-bigquery.git",
   "license": "MIT",
   "devDependencies": {},
