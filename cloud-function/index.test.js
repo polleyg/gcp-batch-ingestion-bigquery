@@ -3,7 +3,7 @@ const index = require('./index')
 const google = require('googleapis');
 
 describe('The cloud function', function () {
-  it('GCS trigger', function * () {
+  it('Check eventType & file path', function * () {
 
       const event = {
         data: {
