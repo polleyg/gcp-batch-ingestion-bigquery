@@ -1,15 +1,16 @@
 {
   "main": "index.js",
-  "devDependencies": {
+  "description": "fsfadsf",
+  "repository": "https://github.com/polleyg/gcp-batch-ingestion-bigquery.git",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "googleapis": "^22.2.0",
     "chai": "3.5.0",
-    "co-mocha": "1.1.2",
-    "mocha": "2.5.3",
+    "co-mocha": "1.2.2",
     "sinon": "1.17.4",
     "sinon-chai": "2.8.0",
-    "ava": "0.25.0"
-  },
-  "dependencies": {
-    "googleapis": "^22.2.0"
+    "mocha": "5.2.0"
   },
   "scripts": {
     "test": "npm run test-unit",
