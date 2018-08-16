@@ -41,7 +41,7 @@ public class TemplatePipelineTest {
 
         Assert.assertThat(output, is(not(empty())));
 
-        Assert.assertThat(output.get(0).get("year"), is(equalTo("2017")));
+        Assert.assertThat(output.get(0).get("year"), is(equalTo("2018")));
         Assert.assertThat(output.get(0).get("month"), is(equalTo("8")));
         Assert.assertThat(output.get(0).get("day"), is(equalTo("13")));
         Assert.assertThat(output.get(0).get("wikimedia_project"), is(equalTo("Wikinews")));
