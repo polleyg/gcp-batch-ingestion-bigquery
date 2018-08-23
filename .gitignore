@@ -1,6 +1,7 @@
 *.lock
 *.iml
 purge.sh
+trigger_pipeline.sh
 /.gradle/
 /.idea/
 /build/
