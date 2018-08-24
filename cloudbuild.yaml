@@ -8,11 +8,11 @@ steps:
   args: ['init']
   dir: 'terraform'
 
-# 2b. Set up GCS & BQ etc. using Docker
+# 2b. Create the GCS bucket using Terraform
 - name: hashicorp/terraform
+  id: terraform-apply
   args: ['apply', '-auto-approve']
   dir: 'terraform'
-  id: terraform-apply
 
 # 3. Build and run the Dataflow pipeline (staged template)
 - name: gcr.io/cloud-builders/gradle
@@ -21,18 +21,23 @@ steps:
 
 # 4a. Install npm & run tests
 - name: gcr.io/cloud-builders/npm
-  args: ['install-test']
   id: npm-install-test
+  args: ['install-test']
   dir: 'cloud-function'
   waitFor: ['terraform-apply']
 
 # 4b. Deploy the Cloud Function that listens to the bucket
 - name: gcr.io/cloud-builders/gcloud
+  id: function-deploy
   args: ['functions', 'deploy', 'goWithTheDataFlow', '--stage-bucket=gs://batch-pipeline', '--trigger-bucket=gs://batch-pipeline']
   dir: 'cloud-function'
   waitFor: ['npm-install-test']
 
-# 5. Copy tarball/archive to GCS for more shenanigans later
+# 5. Trigger the pipeline for demo purposes
+- name: gcr.io/cloud-builders/gsutil
+  args: ['cp', 'gs://test-file-for-dataflow/*', 'gs://batch-pipeline/upload/file.csv']
+
+# 6. Copy tarball/archive to GCS for more shenanigans later
 artifacts:
   objects:
     location: 'gs://batch-pipeline/artifacts'
