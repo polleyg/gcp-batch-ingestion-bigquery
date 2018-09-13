@@ -24,8 +24,8 @@ dependencies {
 run {
     args = ["--project=grey-sort-challenge",
             "--runner=DataflowRunner",
-            "--maxNumWorkers=10",
-            "--numWorkers=5",
+            "--maxNumWorkers=5",
+            "--numWorkers=1",
             "--zone=australia-southeast1-a",
             "--stagingLocation=gs://batch-pipeline/jars",
             "--tempLocation=gs://batch-pipeline/tmp",
