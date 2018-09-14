@@ -30,8 +30,6 @@ public class TemplatePipeline {
     public static final String HEADER = "year,month,day,wikimedia_project,language,title,views";
     public static final Schema SCHEMA = Schema.builder()
             .addStringField("wikimedia_project")
-            .addInt64Field("year")
-            .addInt64Field("month")
             .addInt64Field("views")
             .build();
 
@@ -60,9 +58,9 @@ public class TemplatePipeline {
         PCollection<Row> outputStream =
                 sqlRows.apply("sql_transform",
                         SqlTransform.query(
-                                "select wikimedia_project, `year`, `month`, sum(views) " +
+                                "select wikimedia_project, sum(views) " +
                                         "from PCOLLECTION " +
-                                        "group by wikimedia_project, `year`, `month`"));
+                                        "group by wikimedia_project"));
         outputStream.setCoder(SCHEMA.getRowCoder());
 
         //And back to BigQuery table rows *sigh*
@@ -100,8 +98,6 @@ public class TemplatePipeline {
     private static TableSchema getTableSchemaAggregated() {
         List<TableFieldSchema> fields = new ArrayList<>();
         fields.add(new TableFieldSchema().setName("wikimedia_project").setType("STRING"));
-        fields.add(new TableFieldSchema().setName("year").setType("INTEGER"));
-        fields.add(new TableFieldSchema().setName("month").setType("INTEGER"));
         fields.add(new TableFieldSchema().setName("views").setType("INTEGER"));
         return new TableSchema().setFields(fields);
     }
@@ -136,8 +132,6 @@ public class TemplatePipeline {
                     .withSchema(SCHEMA)
                     .addValues(
                             c.element().get("wikimedia_project"),
-                            Integer.valueOf((String) c.element().get("year")),
-                            Integer.valueOf((String) c.element().get("month")),
                             Integer.valueOf((String) c.element().get("views"))
                     )
                     .build();
@@ -152,8 +146,6 @@ public class TemplatePipeline {
             TableRow bqRow = new TableRow();
 
             bqRow.set("wikimedia_project", row.getString("wikimedia_project"));
-            bqRow.set("year", row.getInt64("year"));
-            bqRow.set("month", row.getInt64("month"));
             bqRow.set("views", row.getInt64("views"));
 
             c.output(bqRow);
