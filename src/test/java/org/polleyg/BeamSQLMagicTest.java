@@ -16,13 +16,13 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
 
-public class TemplatePipelineTest {
+public class BeamSQLMagicTest {
 
     private static DoFnTester<String, TableRow> fnTester;
 
     @BeforeClass
     public static void init() {
-        fnTester = DoFnTester.of(new TemplatePipeline.WikiParDo());
+        fnTester = DoFnTester.of(new BeamSQLMagic.WikiParDo());
     }
 
     @AfterClass

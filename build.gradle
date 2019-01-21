@@ -33,4 +33,4 @@ run {
     ]
 }
 
-mainClassName="org.polleyg.TemplatePipeline"
+mainClassName="org.polleyg.BeamSQLMagic"
