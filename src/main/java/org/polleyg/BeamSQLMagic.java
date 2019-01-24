@@ -10,6 +10,8 @@ import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.Row;
 
+import java.util.stream.Collectors;
+
 /**
  * Do some randomness
  */
@@ -17,7 +19,7 @@ public class BeamSQLMagic {
     public static final String HEADER = "year,month,day,wikimedia_project,language,title,views";
     public static final Schema SCHEMA = Schema.builder()
             .addStringField("lang")
-            .addInt32Field("views")
+            .addInt64Field("views")
             .build();
 
     public static void main(String[] args) {
@@ -29,9 +31,12 @@ public class BeamSQLMagic {
         Pipeline pipeline = Pipeline.create(options);
         pipeline.apply("read_from_gcs", TextIO.read().from("gs://batch-pipeline-sql/input/*"))
                 .apply("transform_to_row", ParDo.of(new RowParDo())).setRowSchema(SCHEMA)
-                .apply("transform_sql", SqlTransform.query("SELECT SUM(sum_views) as total_views FROM (SELECT lang, SUM(views) as sum_views FROM PCOLLECTION GROUP BY lang)"))
+                .apply("transform_sql", SqlTransform.query(
+                        "SELECT lang, SUM(views) as sum_views " +
+                                "FROM PCOLLECTION GROUP BY lang")
+                )
                 .apply("transform_to_string", ParDo.of(new RowToString()))
-                .apply("write_to_gcs", TextIO.write().to("gs://batch-pipeline-sql/output/result.txt").withoutSharding());
+                .apply("write_to_gcs", TextIO.write().to("gs://batch-pipeline-sql/output/output.csv").withoutSharding());
         pipeline.run();
     }
 
@@ -43,7 +48,7 @@ public class BeamSQLMagic {
                 String[] vals = c.element().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 Row appRow = Row
                         .withSchema(SCHEMA)
-                        .addValues(vals[4], Integer.valueOf(vals[6])) //don't do this in prod!
+                        .addValues(vals[4], Long.valueOf(vals[6]))
                         .build();
                 c.output(appRow);
             }
@@ -54,7 +59,11 @@ public class BeamSQLMagic {
     public static class RowToString extends DoFn<Row, String> {
         @ProcessElement
         public void processElement(ProcessContext c) {
-            c.output(c.element().getInt32("total_views").toString());
+            String line = c.element().getValues()
+                    .stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(","));
+            c.output(line);
         }
     }
 }
